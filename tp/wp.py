@@ -19,10 +19,13 @@ article.json:
       "title": "...", "slug": "...", "excerpt": "meta description, <=160 chars",
       "content_html": "<p>...</p> ... {{INFOGRAPHIC_1}} ...",
       "category": "Sports", "tags": ["IPL", "Virat Kohli"],
+      "photos": [{"file": "photo1.jpg", "alt": "...", "caption": "...", "credit": "Author / CC BY 4.0, via Wikimedia Commons"}],
       "infographics": [{"png": "out/1.png", "alt": "...", "caption": "..."}],
       "sources": [{"title": "...", "url": "https://...", "source": "The Hindu"}]
     }
-The first infographic also becomes the featured image. The Sources section is
+Photos come from tp.photos (freely licensed only); the credit is shown in the
+photo's caption. Put {{PHOTO_1}}, {{PHOTO_2}} where they belong. The first photo
+becomes the featured image (or the first infographic if there are no photos). The Sources section is
 added here from "sources", so every post links to its real sources.
 """
 import argparse
@@ -109,6 +112,17 @@ def publish(s, path):
     base_dir = os.path.dirname(os.path.abspath(path))
     content = a["content_html"]
     featured = None
+    for i, ph in enumerate(a.get("photos", []), 1):
+        path_ = ph["file"] if os.path.isabs(ph["file"]) else os.path.join(base_dir, ph["file"])
+        if not ph.get("credit"):
+            sys.exit(f"refusing to post: photo {i} has no credit")
+        cap = f'{ph.get("caption", "")} ({ph["credit"]})'.strip()
+        mid, url = upload(s, path_, ph.get("alt", ""), cap)
+        featured = featured or mid
+        fig = (f'<figure class="wp-block-image size-large"><img src="{url}" alt="{html.escape(ph.get("alt", ""), quote=True)}" '
+               f'class="wp-image-{mid}"/><figcaption>{html.escape(cap)}</figcaption></figure>')
+        marker = "{{PHOTO_%d}}" % i
+        content = content.replace(marker, fig) if marker in content else fig + content
     for i, g in enumerate(a.get("infographics", []), 1):
         png = g["png"] if os.path.isabs(g["png"]) else os.path.join(base_dir, g["png"])
         mid, url = upload(s, png, g.get("alt", ""), g.get("caption", ""))

@@ -14,6 +14,7 @@ There's a cap of 8 posts a day so the site never looks mass-produced. The full i
 - `tp/trends.py`: fetches trending searches and filters out covered ones
 - `tp/state.py`: remembers covered or skipped trends (`state/covered.json`, committed each run)
 - `tp/infographic.py`: renders stat cards, bar charts and timelines as PNGs
+- `tp/photos.py`: finds freely licensed Wikimedia Commons photos with the credit line each one needs
 - `tp/wp.py`: WordPress REST API (connection check, recent posts, publish with media, tags and sources)
 
 ## Settings (cloud environment)

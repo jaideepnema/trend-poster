@@ -35,28 +35,35 @@ nothing in a run is fine.
    - Use `<h2>` sections such as: What happened, Key facts, Background, Why it's trending, Reactions, What happens next. Use `<ul>` for key facts.
    - Every number, date, name and quote must come from your sources. If sources disagree, say so. Never invent quotes or figures.
    - Add real value: context, background, a clear timeline, what it means for readers.
-   - Put `{{INFOGRAPHIC_1}}` (and `{{INFOGRAPHIC_2}}` if you make a second) on their own lines where they fit best.
+   - Put `{{PHOTO_1}}`, `{{PHOTO_2}}` and `{{INFOGRAPHIC_1}}`, `{{INFOGRAPHIC_2}}` on their own lines where they fit best (a photo near the top, infographics in the body).
    - Valid HTML only (`<p>`, `<h2>`, `<h3>`, `<ul>`, `<li>`, `<strong>`, `<blockquote>`). No `<h1>`, and no Sources section (the script adds one).
 
-5. **Infographics**: make 1 or 2 specs from facts in your sources (`stats` for key numbers, `bar` for comparisons, `timeline` for sequences of events). See the docstring in `tp/infographic.py`. Then render them:
+5. **Photos** (1 to 3 per article): use only freely licensed photos from Wikimedia Commons. Never take photos from news sites, Google Images, social media or agency feeds.
+   ```bash
+   python -m tp.photos search "<person, place or subject>" --limit 6
+   python -m tp.photos download "<url>" out/<slug>/photo1.jpg
+   ```
+   Look at each downloaded photo with the Read tool. Use it only if it clearly shows the subject of the article. Check the description and date, and never use a photo that could mislead readers (an old event, or a different person with a similar name). Use the `credit` text from the search result as-is. If nothing suitable exists, skip photos for that article and use infographics only. If the search is rate-limited, wait and retry once, then move on without photos.
+
+6. **Infographics**: make 1 or 2 specs from facts in your sources (`stats` for key numbers, `bar` for comparisons, `timeline` for sequences of events). See the docstring in `tp/infographic.py`. Then render them:
    ```bash
    mkdir -p out/<slug>
    python -m tp.infographic out/<slug>/g1.json out/<slug>/1.png
    ```
    Look at each PNG with the Read tool. Re-render it if any text overflows or overlaps.
 
-6. **Fact-check pass**: re-read the article against your source notes, claim by claim. Remove or fix anything unsupported. If more than a couple of claims can't be supported, skip the trend.
+7. **Fact-check pass**: re-read the article against your source notes, claim by claim. Remove or fix anything unsupported. If more than a couple of claims can't be supported, skip the trend.
 
-7. **Post**: write `out/<slug>/article.json` in the format in `tp/wp.py`'s docstring, with every source you used (at least 2), then run:
+8. **Post**: write `out/<slug>/article.json` in the format in `tp/wp.py`'s docstring, with every source you used (at least 2), the `photos` list (file, alt text, caption and credit) and the `infographics` list, then run:
    ```bash
    python -m tp.wp publish out/<slug>/article.json
    python -m tp.state mark "<trend>" --result posted --url "<link>"
    ```
 
-8. **Save state**: commit only `state/covered.json` (never `out/`) and push to the default branch:
+9. **Save state**: commit only `state/covered.json` (never `out/`) and push to the default branch:
    ```bash
    git add state/covered.json && git commit -m "Trend run: update covered trends" && git push
    ```
    If the push is rejected, pull with rebase and push again.
 
-9. **Report**: finish with a short summary listing each post (title, status and edit link) and each skipped trend with its reason. If WordPress or Google Trends failed, say exactly what failed.
+10. **Report**: finish with a short summary listing each post (title, status and edit link) and each skipped trend with its reason. If WordPress or Google Trends failed, say exactly what failed.
