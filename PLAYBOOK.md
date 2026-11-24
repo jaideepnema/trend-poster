@@ -15,10 +15,13 @@ nothing in a run is fine.
 1. **Set up and get candidates**
    ```bash
    pip install -q -r requirements.txt
-   python -m tp.trends --geo IN --min-traffic 500 --limit 10
+   python -m tp.trends --geo IN --min-traffic 500 --limit 10   # Google Trends, comes with news links
+   python -m tp.xtrends --limit 25                              # X (Twitter) trends for India, no links
    python -m tp.wp recent --days 2      # titles already on the site, drafts included
    ```
    Skip any candidate that matches a recent title on the site.
+   If `tp.xtrends` exits with an error (it reads a free public page and can break), carry on with Google Trends alone and say so in your report.
+   Treat a trend that appears on **both** lists as the strongest signal. X trends have no news links, so find the coverage with WebSearch. Many X trends are hashtag campaigns, fan or party hashtags, greetings and devotional phrases: only write about one if credible outlets report a real event behind it. Several trends are often the same story (for example a festival in Hindi, English and as a hashtag): write one article for the story, not one per trend.
 
 2. **Choose** up to 2 candidates, highest traffic first, that pass all of these:
    - **It is about India.** The list is India's Google Trends, but it also contains Indians searching for foreign topics (for example US market hours or a European footballer). Pick only trends about India: Indian people, places, politics, business and markets, Indian sports teams and tournaments, Indian films and shows, Indian weather and disasters, or prices that Indians check (gold, petrol, exchange rates). Skip foreign-only stories, unless the story directly affects India and you can write it from an Indian angle.
@@ -59,7 +62,7 @@ nothing in a run is fine.
 8. **Post**: write `out/<slug>/article.json` in the format in `tp/wp.py`'s docstring, with every source you used (at least 2), the `photos` list (file, alt text, caption and credit) and the `infographics` list, then run:
    ```bash
    python -m tp.wp publish out/<slug>/article.json
-   python -m tp.state mark "<trend>" --result posted --url "<link>"
+   python -m tp.state mark "<trend>" --result posted --url "<link>"   # repeat for every related trend name you covered
    ```
 
 9. **Save state**: commit only `state/covered.json` (never `out/`) and push to the default branch:

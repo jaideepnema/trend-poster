@@ -2,7 +2,7 @@
 
 Every hour, a scheduled Claude session (on your Claude plan, so no API key is needed):
 
-1. reads Google Trends' real-time trending list for India and drops anything already covered,
+1. reads India's trending topics from Google Trends and from X (Twitter), and drops anything already covered,
 2. picks up to 2 trends that have a real news story behind them,
 3. researches each one across at least 2 credible publishers,
 4. writes an original 800 to 1,200 word article and makes 1 or 2 infographics from the facts,
@@ -12,6 +12,7 @@ There's a cap of 8 posts a day so the site never looks mass-produced. The full i
 
 ## Files
 - `tp/trends.py`: fetches trending searches and filters out covered ones
+- `tp/xtrends.py`: reads X (Twitter) trends for India from the free getdaytrends.com page (the official X API is paid)
 - `tp/state.py`: remembers covered or skipped trends (`state/covered.json`, committed each run)
 - `tp/infographic.py`: renders stat cards, bar charts and timelines as PNGs
 - `tp/photos.py`: finds freely licensed Wikimedia Commons photos with the credit line each one needs
@@ -25,4 +26,4 @@ There's a cap of 8 posts a day so the site never looks mass-produced. The full i
 | `POST_STATUS` | `draft` | switch to `publish` once you trust the quality |
 | WordPress login | Application Password | as a Network secret for your site's host (preferred), or as `WP_USER` and `WP_APP_PASSWORD` variables |
 
-The environment's allowed hosts must include `trends.google.com` and your site's host.
+The environment's allowed hosts must include `trends.google.com`, `getdaytrends.com` and your site's host.
