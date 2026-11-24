@@ -22,6 +22,7 @@ nothing in a run is fine.
 
 2. **Choose** up to 2 candidates, highest traffic first, that pass all of these:
    - **It is about India.** The list is India's Google Trends, but it also contains Indians searching for foreign topics (for example US market hours or a European footballer). Pick only trends about India: Indian people, places, politics, business and markets, Indian sports teams and tournaments, Indian films and shows, Indian weather and disasters, or prices that Indians check (gold, petrol, exchange rates). Skip foreign-only stories, unless the story directly affects India and you can write it from an Indian angle.
+   - **It is a news story, not a routine daily page.** Skip daily rate and price searches (gold, silver, petrol, exchange rates), live scores, lottery results, horoscopes, panchang and "is the market open" searches. People want a number there, not an article, and these pages are thin and repetitive. Only cover such a topic if something newsworthy happened, for example a record gold price or a sharp RBI move, and then write about that event.
    - There is a real news story behind it (not just a person's name with nothing new, a TV channel, a login page, or a lottery result list).
    - Not purely adult, gambling or betting, or hateful content.
    - For a death, accident, crime or tragedy: only if credible outlets report confirmed facts. Write respectfully, with no speculation and no graphic detail.
